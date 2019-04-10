@@ -1,0 +1,20 @@
+{
+  "name": "dpd-sso-client",
+  "version": "0.1.0",
+  "description": "Deployd SSO Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "deployd",
+    "dpd",
+    "sso",
+    "client"
+  ],
+  "author": "Abz <abz_aniki@yahoo.co.id>",
+  "license": "ISC",
+  "dependencies": {
+    "jwt-decode": "^2.2.0"
+  }
+}
