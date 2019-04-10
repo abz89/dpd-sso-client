@@ -1,3 +1,5 @@
+var config = require('config');
+
 var Resource = require('deployd/lib/resource'),
   util = require('util');
 
@@ -7,25 +9,30 @@ var url = require('url'),
 var verifyJwtToken = require('./jwt_verify').verifyJwtToken;
 var isTokenExpired = require('./jwt_verify').isTokenExpired;
 
-// var ssoServer = 'http://accounts.edubox.cloud:3030';
-var ssoServer = 'http://account.box';
+var ssoServer;
+
+if (config.has('ssoServer')) {
+  ssoServer = config.get('ssoServer');
+} else {
+  ssoServer = process.env.SSO_SERVER;
+}
 
 var ssoServerJwtUrl = `${ssoServer}/simplesso/verifytoken`;
 var ssoServerLoginUrl = `${ssoServer}/simplesso/login`;
 
-function Hello(name, options) {
+function SSOClient(name, options) {
   Resource.apply(this, arguments);
 }
-util.inherits(Hello, Resource);
+util.inherits(SSOClient, Resource);
 
-Hello.label = 'SSO Client';
-Hello.defaultPath = '/auth';
+SSOClient.label = 'SSO Client';
+SSOClient.defaultPath = '/auth';
 
-module.exports = Hello;
+module.exports = SSOClient;
 
-Hello.prototype.clientGeneration = true;
+SSOClient.prototype.clientGeneration = true;
 
-Hello.prototype.handle = function(ctx, next) {
+SSOClient.prototype.handle = function(ctx, next) {
   if (ctx.req && ctx.req.method !== 'GET') return next();
 
   var ssoToken = ctx.query.ssoToken;
